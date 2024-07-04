@@ -57,3 +57,7 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
+  <img src="./API.png">
+
+  <img src="./ERD.png">
