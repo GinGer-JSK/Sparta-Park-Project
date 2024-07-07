@@ -31,7 +31,13 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   nickname: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.CUSTOMER, nullable: false })
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.CUSTOMER,
+    nullable: false,
+    select: true,
+  })
   role: Role;
 
   @Column({ type: 'int', default: 1000000, nullable: false })

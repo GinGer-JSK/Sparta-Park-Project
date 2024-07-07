@@ -1,4 +1,8 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Show } from './entities/show.entity';
@@ -95,5 +99,29 @@ export class ShowService {
 
   async findByTitle(title: string) {
     return await this.showRepository.findOneBy({ title });
+  }
+
+  async deleteShow(id: number): Promise<void> {
+    const result = await this.showRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`해당하는 공연을 찾을 수 없습니다.`);
+    }
+  }
+
+  async findOne(id: number): Promise<Show> {
+    const show = await this.showRepository.findOne({ where: { id } });
+    if (!show) {
+      throw new NotFoundException(`해당하는 공연을 찾을 수 없습니다.`);
+    }
+    return show;
+  }
+
+  async updateShow(id: number, updateData: Partial<Show>): Promise<Show> {
+    await this.showRepository.update(id, updateData);
+    const updatedShow = await this.showRepository.findOne({ where: { id } });
+    if (!updatedShow) {
+      throw new NotFoundException(`Show with ID ${id} not found`);
+    }
+    return updatedShow;
   }
 }

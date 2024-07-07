@@ -38,7 +38,7 @@ export class UserService {
 
   async login(email: string, password: string) {
     const user = await this.userRepository.findOne({
-      select: ['id', 'email', 'password'],
+      select: ['id', 'email', 'password', 'role'],
       where: { email },
     });
     if (_.isNil(user)) {
@@ -49,7 +49,7 @@ export class UserService {
       throw new UnauthorizedException('비밀번호를 확인해주세요.');
     }
 
-    const payload = { email, sub: user.id };
+    const payload = { email, sub: user.id, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
     };

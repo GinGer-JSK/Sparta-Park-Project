@@ -1,6 +1,17 @@
-import { Controller, Post, Get, Body, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Query,
+  Delete,
+  Param,
+  ParseIntPipe,
+  Patch,
+} from '@nestjs/common';
 import { ShowService } from './show.service';
 import { ShowRegisterDto } from './dto/showregister.dto';
+import { UpdateShowDto } from './dto/updateshow.dto';
 
 @Controller('shows')
 export class ShowController {
@@ -39,6 +50,25 @@ export class ShowController {
     if (location) {
       return await this.showService.findLocation(location);
     }
-    return []; // 또는 적절한 응답을 반환
+    return [];
+  }
+
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.showService.findOne(id);
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateShowDto: UpdateShowDto,
+  ) {
+    return await this.showService.updateShow(id, updateShowDto);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    await this.showService.deleteShow(id);
+    return { message: '삭제 완료!' };
   }
 }
