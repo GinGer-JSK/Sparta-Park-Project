@@ -12,6 +12,7 @@ import { Team } from './team/entities/team.entity';
 import { TeamModule } from './team/team.module';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
+import { UserInfos } from './user-ifnos/entities/user-infos.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -24,7 +25,7 @@ const typeOrmModuleOptions = {
     host: configService.get('DB_HOST'),
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
-    entities: [User, Team, SupportMessage],
+    entities: [User, UserInfos, Team, SupportMessage],
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),
