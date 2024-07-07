@@ -1,12 +1,22 @@
 import { UserInfo } from 'src/utils/userInfo.decorator';
 
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
+import { UpdateUserDto } from './dto/updateuser.dto';
 
 @Controller('user')
 export class UserController {
@@ -30,5 +40,18 @@ export class UserController {
   @Get('email')
   getEmail(@UserInfo() user: User) {
     return { email: user.email };
+  }
+
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.userService.findOne(id);
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateShowDto: UpdateUserDto,
+  ) {
+    return await this.userService.updateUser(id, updateShowDto);
   }
 }

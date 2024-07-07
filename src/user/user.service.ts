@@ -5,12 +5,15 @@ import { Repository } from 'typeorm';
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from './entities/user.entity';
+import { Role } from './types/userRole.type';
+import { UpdateUserDto } from './dto/updateuser.dto';
 
 @Injectable()
 export class UserService {
@@ -57,5 +60,65 @@ export class UserService {
 
   async findByEmail(email: string) {
     return await this.userRepository.findOneBy({ email });
+  }
+  async findOne(id: number): Promise<{
+    id: number;
+    email: string;
+    nickname: string;
+    role: string;
+    point: number;
+    createdAt: Date;
+    updatedAt: Date;
+  }> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`해당하는 유저를 찾을 수 없습니다.`);
+    }
+    return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+      role: user.role === Role.CUSTOMER ? 'CUSTOMER' : 'ADMIN',
+      point: user.point,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  }
+  async updateUser(
+    id: number,
+    updateData: UpdateUserDto,
+  ): Promise<{
+    id: number;
+    email: string;
+    nickname: string;
+    role: string;
+    point: number;
+    createdAt: Date;
+    updatedAt: Date;
+  }> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`해당하는 유저를 찾을 수 없습니다.`);
+    }
+
+    if (updateData.password) {
+      user.password = await hash(updateData.password, 10);
+    }
+
+    if (updateData.nickname) {
+      user.nickname = updateData.nickname;
+    }
+
+    await this.userRepository.save(user);
+
+    return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+      role: user.role === Role.CUSTOMER ? 'CUSTOMER' : 'ADMIN',
+      point: user.point,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 }
