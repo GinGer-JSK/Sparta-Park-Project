@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Show } from './entities/show.entity';
@@ -18,6 +18,10 @@ export class ShowService {
     price: number,
     showImage: string,
   ) {
+    const existingShow = await this.findByTitle(title);
+    if (existingShow) {
+      throw new ConflictException('이미 해당하는 공연이 있습니다!');
+    }
     const newShow = this.showRepository.create({
       title,
       description,
@@ -87,5 +91,9 @@ export class ShowService {
         'createdAt',
       ],
     });
+  }
+
+  async findByTitle(title: string) {
+    return await this.showRepository.findOneBy({ title });
   }
 }

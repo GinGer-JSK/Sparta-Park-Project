@@ -1,9 +1,9 @@
-# ❓ 이 프로젝트는 ?
+# ❓ 이 프로젝트는
 
 인터파크와 같은 공연예매 서비스를 퍼블리싱 합니다.
 네이밍은 현재 진행하고 있는 스파르타코딩 클럽의 이름을 따서 Sparta_Park 로 지정하였습니다.
 
-# 🚩 이 프로젝트의 목표는 ?
+# 🚩 이 프로젝트의 목표는
 
 사용자가 원하는 공연을 예매할 수 있는 웹 사이트를 구현.<br/>
 각 공연은 공연명, 공연시간, 장소, 가격 등의 정보를 가지고 있어야 하고, 사용자는 이를 통해 원하는 공연을 선택하고 예매할 수 있음!
@@ -67,13 +67,13 @@ https://drawsql.app/teams/jsk-team/diagrams/sparta-showpark <br/>
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## ❗ Installation
+## ℹ️ Installation
 
 ```bash
 $ yarn install
 ```
 
-## ❗ Running the app
+## ℹ️ Running the app
 
 ```bash
 # development
