@@ -7,6 +7,8 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -26,22 +28,18 @@ export class User {
   @Column({ type: 'varchar', select: false, nullable: false })
   password: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.Customer })
-  role: Role;
-
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: true })
   nickname: string;
 
-  @Column({ type: 'int', nullable: false })
+  @Column({ type: 'enum', enum: Role, default: Role.CUSTOMER, nullable: false })
+  role: Role;
+
+  @Column({ type: 'int', default: 1000000, nullable: false })
   point: number;
 
-  @Column({ type: 'int', nullable: false })
-  mobile: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @OneToOne((type) => UserInfos, (userInfos) => userInfos.user)
-  @JoinColumn()
-  userInfos: UserInfos;
-
-  @OneToMany(() => SupportMessage, (supportMessage) => supportMessage.user)
-  supportMessages: SupportMessage[];
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

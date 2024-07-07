@@ -34,20 +34,20 @@ export class TeamController {
     return await this.teamService.findOne(id);
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async create(@UploadedFile() file: Express.Multer.File) {
     await this.teamService.create(file);
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @Put(':id')
   async update(@Param('id') id: number, @Body() updateTeamDto: UpdateTeamDto) {
     await this.teamService.update(id, updateTeamDto);
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @Delete(':id')
   async delete(@Param('id') id: number) {
     await this.teamService.delete(id);

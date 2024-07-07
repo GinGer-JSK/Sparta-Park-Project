@@ -50,10 +50,6 @@ export class UserInfos {
   })
   updatedAt: Date;
 
-  @OneToOne((type) => User, (user) => user.userInfos, {
-    nullable: false, // 설정 안할시 기본값 true
-    onDelete: 'CASCADE',
-  })
   @JoinColumn()
   user: User;
   @Column({ name: 'user_id', type: 'int', unique: true, nullable: false })

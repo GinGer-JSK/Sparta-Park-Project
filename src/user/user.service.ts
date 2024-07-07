@@ -20,7 +20,7 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(email: string, password: string) {
+  async register(email: string, password: string, nickname: string) {
     const existingUser = await this.findByEmail(email);
     if (existingUser) {
       throw new ConflictException(
@@ -32,6 +32,7 @@ export class UserService {
     await this.userRepository.save({
       email,
       password: hashedPassword,
+      nickname,
     });
   }
 

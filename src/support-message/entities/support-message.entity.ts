@@ -19,7 +19,6 @@ export class SupportMessage {
   @Column()
   message: string;
 
-  @ManyToOne(() => User, (user) => user.supportMessages)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
