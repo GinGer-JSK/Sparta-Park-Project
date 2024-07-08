@@ -31,7 +31,7 @@ https://drive.google.com/file/d/1feU828iQPAt39Nk-V4SD9OHy1gh47woV/view?usp=shari
 
 # 🌐 이 사이트 접속하기
 
-http://ginger-shop.duckdns.org/
+http://ginger-sparta.duckdns.org:3500
 
 # ERD & API
 
